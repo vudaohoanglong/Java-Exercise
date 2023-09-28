@@ -39,6 +39,8 @@ public class AuthService {
         }
     }
     public boolean validate(User user){
+        if (user.getUsername().length()>20) return false;
+        if (user.getPassword().length()>15 || user.getPassword().length()<6) return false;
         return true;
     }
 
@@ -52,8 +54,11 @@ public class AuthService {
                     user.getPassword()
             )
         );
-        User existedUser = userRepo.findByUserName(user.getUsername()).orElseThrow();
+        User existedUser = userRepo.findByUserName(user.getUsername()).orElse(null);
+        if (existedUser == null) {
+            return new AuthResponse("","User not exists");
+        }
         var jwtToken = jwtService.generateToken(new HashMap<>(),user);
-        return new AuthResponse(jwtToken,"Hello");
+        return new AuthResponse(jwtToken,"Login successfully");
     }
 }

@@ -29,6 +29,14 @@ public class AuthController {
     }
     @PostMapping("/login")
     public ResponseEntity<Object> login(@RequestBody User user) {
-        return ResponseEntity.ok(authService.login(user));
+        AuthResponse authResponse = authService.login(user);
+        if (authResponse.getMessage().startsWith("Failed")) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(authResponse);
+        } else if (authResponse.getMessage().startsWith("User")) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(authResponse);
+        }
+        else return ResponseEntity.ok(authResponse);
     }
 }
