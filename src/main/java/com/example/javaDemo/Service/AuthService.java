@@ -1,18 +1,15 @@
 package com.example.javaDemo.Service;
 
-import com.example.javaDemo.Entity.AuthResponse;
+import com.example.javaDemo.Util.AuthResponse;
 import com.example.javaDemo.Entity.User;
 import com.example.javaDemo.Repository.UserRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
