@@ -15,7 +15,8 @@ public class StudentDTO {
     private String studentName;
     private String studentCode;
     private Integer studentInfoId;
-    private Double avarageScore;
+    private String address;
+    private Double averageScore;
 
     @JsonFormat(pattern = "yyyy/MM/dd")
     private Date dateOfBirth;
