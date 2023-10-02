@@ -8,9 +8,12 @@ import com.example.javaDemo.Repository.StudentRepo;
 import com.example.javaDemo.Util.ResponseStatus;
 import com.example.javaDemo.Util.SearchResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.format.datetime.DateFormatter;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.logging.SimpleFormatter;
 
 @Service
 @RequiredArgsConstructor
@@ -36,7 +39,14 @@ public class StudentService {
     public static boolean validate(Date date) {
         return date.before(new Date());
     }
-    public Object searchStudentBeforeDate(Date date) {
+    public Object searchStudentBeforeDate(String dateString) {
+        Date date;
+        try {
+            SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd");
+             date = dateFormatter.parse(dateString);
+        } catch (Exception e) {
+            return new SearchResponse(ResponseStatus.VALIDATION_ERROR, new ArrayList<>());
+        }
         if (date != null && !validate(date)) {
             return new SearchResponse(ResponseStatus.VALIDATION_ERROR, new ArrayList<>());
         }
@@ -45,14 +55,11 @@ public class StudentService {
         }
     }
 
-    public Object addStudent(StudentDTO studentDTO) {
+    public Object addStudent(StudentDTO studentDTO) { // not complete
         Student student = new Student();
         StudentInfo studentInfo = new StudentInfo();
         StudentDTOConverter.fromDTO(studentDTO,student,studentInfo);
         Student existStudent = studentRepo.findByStudentId(student.getStudentId());
-        if (existStudent == null) {
-            return null;
-        }
         return null;
     }
 }

@@ -3,13 +3,17 @@ package com.example.javaDemo.Service;
 import com.example.javaDemo.Util.AuthResponse;
 import com.example.javaDemo.Entity.User;
 import com.example.javaDemo.Repository.UserRepo;
+import com.example.javaDemo.Util.RegexPattern;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.Parameter;
 import java.util.HashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Service
 @RequiredArgsConstructor
@@ -35,10 +39,19 @@ public class AuthService {
             return new AuthResponse("","Create successfully");
         }
     }
-    public boolean validate(User user){
-        if (user.getUsername().length()>20) return false;
-        if (user.getPassword().length()>15 || user.getPassword().length()<6) return false;
-        return true;
+//    public boolean validate(User user){
+//        if (user.getUsername().length()>20) return false;
+//        if (user.getPassword().length()>15 || user.getPassword().length()<6) return false;
+//        return true;
+//    }
+    public boolean validate(User user) {
+        String userName = user.getUsername();
+        String userNameRegex = "[a-zA-Z0-9_]{1,20}";
+
+        String password  = user.getPassword();
+        String passwordRegex = "(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@#$%^&+=!]).{6,15}";
+
+        return RegexPattern.validate(userNameRegex,userName) && RegexPattern.validate(passwordRegex,password);
     }
 
     public AuthResponse login(User user) {
