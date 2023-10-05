@@ -2,6 +2,7 @@ package com.example.javaDemo.Entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -9,7 +10,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class File {
+@Builder
+public class _File {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "file_id")
